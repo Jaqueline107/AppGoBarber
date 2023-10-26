@@ -3,6 +3,7 @@ import { View, ActivityIndicator } from "react-native";
 
 import AuthRoutes from "./auth.routes";
 import AppRoutes from "./app.routes";
+import ProfileUpdate from "../pages/Profile";
 
 import { useAuth } from "../hooks/auth";
 
