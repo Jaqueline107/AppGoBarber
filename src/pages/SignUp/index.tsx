@@ -42,6 +42,7 @@ const SignUp = () => {
         async (data: SignUpFormData) => {
             try {
                 const schema = Yup.object().shape({
+                    name: Yup.string().required('Nome obrigatório'),
                     email: Yup.string()
                         .required('E-mail obrigatório')
                         .email('Digite um e-mail válido'),
@@ -53,6 +54,7 @@ const SignUp = () => {
                 });
 
                 const response = await api.post('/users', data);
+                navigation.goBack();
 
                 console.log(response.data);
             } catch (err) {
@@ -60,6 +62,7 @@ const SignUp = () => {
                     const errors = getValidationsErrors(err);
                     return formRef.current?.setErrors(errors);
                 }
+                console.log(err);
             }
         },
         [navigation],
@@ -84,6 +87,15 @@ const SignUp = () => {
                         </View>
 
                         <Form ref={formRef} onSubmit={HandleSignUp}>
+
+                            <Input
+                                name="name"
+                                icon="user"
+                                placeholder="Nome"
+                                autoCorrect={false}
+                                autoCapitalize="words"
+                                returnKeyType="next"
+                            />
                             <Input
                                 name="email"
                                 icon="mail"
@@ -93,7 +105,6 @@ const SignUp = () => {
                                 keyboardType="email-address"
                                 returnKeyType="next"
                             />
-
                             <Input
                                 name="password"
                                 icon="lock"

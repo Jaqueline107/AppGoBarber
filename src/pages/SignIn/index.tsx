@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useCallback, useRef } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
@@ -6,24 +7,24 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     Platform,
-    TextInput,
-    Alert,
+    type TextInput,
 } from 'react-native';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 import Icon from 'react-native-vector-icons/Feather';
+import logoImg from '../../assets/logo.png';
+
 import * as Yup from 'yup';
 
 import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
+import { type FormHandles } from '@unform/core';
 import { useAuth } from '../../hooks/auth';
 
 import getValidationsErrors from '../../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
-import logoImg from '../../assets/logo.png';
 
 import {
     Container,
@@ -69,17 +70,14 @@ const SignIn = () => {
                 email: data.email,
                 password: data.password,
             });
+            console.log(response, 'response');
+            return response;
         } catch (err) {
             if (err instanceof Yup.ValidationError) {
                 const errors = getValidationsErrors(err);
-
-                formRef.current?.setErrors(errors);
-                return;
+                return formRef.current?.setErrors(errors);
             }
-            Alert.alert(
-                'Erro na autenticação',
-                'Ocorreu um erro ao fazer login, cheque as credenciais.',
-            );
+            console.log(err);
         }
     }, []);
 
@@ -137,7 +135,9 @@ const SignIn = () => {
             </KeyboardAvoidingView>
 
             <CreateAccountButton
-                onPress={() => navigation.navigate('SignUp' as never)}
+                onPress={() => {
+                    navigation.navigate('SignUp' as never);
+                }}
             >
                 <Icon name="log-in" size={20} color="#ff9000" />
                 <CreateAccountButtonText>
