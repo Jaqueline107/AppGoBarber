@@ -8,6 +8,7 @@ interface InputProps extends TextInputProps {
     name: string;
     icon?: string;
     ref?: React.RefObject<InputRef>;
+    containerStyle?: {};
 }
 
 interface InputValueReference {
@@ -18,7 +19,7 @@ interface InputRef {
     focus(): void;
 }
 
-const Input = ({ name, icon, ...rest }: InputProps) => {
+const Input = ({ name, icon, containerStyle = {}, ...rest }: InputProps) => {
     const inputElementRef = useRef<any>(null);
 
     const {
@@ -62,7 +63,7 @@ const Input = ({ name, icon, ...rest }: InputProps) => {
         [fieldName, registerField];
 
     return (
-        <Container isFocused={isFocused} isErrored={!!error} >
+        <Container style={containerStyle} isFocused={isFocused} isErrored={!!error} >
             {icon && (
                 <Icon
                     name={icon}
